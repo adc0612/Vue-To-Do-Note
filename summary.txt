@@ -54,3 +54,50 @@ mode에 history mode 설정
 
 SignupPage 
 components/SignupForm.vue를 만들어 import한다.
+
+AJAX(Asynchronous Javascript And Xml)
+Ajax를 한마디로 정의하자면 JavaScript를 사용한 비동기 통신, 클라이언트와 서버간에 XML 데이터를 주고받는 기술이라고 할 수 있겠습니다.
+비동기 방식은 웹페이지를 리로드하지 않고 데이터를 불러오는 방식입니다. 
+이 방식의 장점은 페이지 리로드의 경우 전체 리소스를 다시 불러와야하는데 이미지, 스크립트 , 기타 코드등을 모두 재요청할 경우 불필요한 리소스 낭비가 발생하게 되지만 비동기식 방식을 이용할 경우 필요한 부분만 불러와 사용할 수 있으므로 매우 큰 장점이 있습니다.
+기본적으로 HTTP프로토콜은 클라이언트쪽에서 Request를 보내고 Server쪽에서 Response를 받으면 이어졌던 연결이 끊기게 되어있습니다. 
+그래서 화면의 내용을 갱신하기 위해서는 다시 request를 하고 response를 하면서 페이지 전체를 갱신하게 됩니다. 
+하지만 이렇게 할 경우 페이지의 일부분만 갱신할 경우에도 페이지 전체를 다시 로드해야하는데 엄청난 자원낭비와 시간낭비를 초래하고 말것입니다. 
+하지만 ajax는 html 페이지 전체가아닌 일부분만 갱신할수 있도록 XML HttpRequest객체를 통해 서버에 request를 합니다. 
+이 경우 Json이나 xml형태로 필요한 데이터만 받아 갱신하기 때문에 그만큼의 자원과 시간을 아낄 수 있습니다.
+
+Axios 설치 및 연결
+axios는 HTTP 클라이언트 라이브러리로써, 비동기 방식으로 HTTP 데이터 요청을 실행합니다.
+내부적으로 AXIOS는 직접적으로 XMLHttpRequest 를 다루지 않고 “AJAX 호출”을 할 수 있습니다.
+설치 후 import해서 바로 post요청을 할 수 있으나 api구조를 잘 하기위해 api폴더생성하고 index.js에서 필요한 요청들을 setting 해놓고 쓰는 것이 좋다.
+
+api/index.js function만들기
+SignupForm에서 들어오는 userdata를 axios이용해 서버에 보내는 function만든다.
+registerUser function에 인자로 userData를 받아 URL을 지정해 return (axios.post(url, userData))한다.
+
+async submitForm function
+signupForm.vue에서 async submitForm function만든다.
+userData를 담아 registerUser function을 api/index.js에서 import해서 await registerUser(userData);으로 response를 받는다.
+response를 받아 post기능이 성공되면 회원이름과 함께 회원가입이 완료 되었다고 msg를 띄운다.
+
+axios create
+axios.crate를 이용해 기본 옵션들을 설정할 수 있다.
+거의 백앤드 서버에 접속하는 URL은 하나로 지정해서 하기 떄문에 baseURL값으로 집어 넣는다.
+그럼 post할 떄 axios.post(URL,data)대신 instance.post(data)로 post요청을 할 수 있다.
+
+환경변수 설정 .env
+프로젝트 폴더 최상단인 root에 .env파일을 만든다.
+환경변수를 등록하는 파일
+VUE_APP_ 시작으로 변수가 시작하면 vue에서 자동로드 된다.
+.env파일에서 아래와 같이 등록하고
+VUE_APP_API_URL = http://localhost:3000/
+다른 파일에서 가져다 쓸 때는 아래와 같이 쓰면 된다.
+process.env.VUE_APP_API_URL
+.env.development
+개발용(test: npm run serve)으로 local에서 테스트용으로 쓸 때 사용할 변수들을 지정하면 된다.
+.env보다 우선순위를 가진다.
+.env.production
+배포(production: npm run build)할 때 쓸 변수들을 저장
+위와 같이 API_URL은 개발할 때 쓰는 주소와 배포 할 때 쓰는 주소가 다르므로 development, production각각 정의한다.
+.env보다 우선순위를 가진다.
+.env
+개발할 때와 배포할 때 상관없이 공통으로 써야 될 환경변수들을 .env파일에 정의한다.

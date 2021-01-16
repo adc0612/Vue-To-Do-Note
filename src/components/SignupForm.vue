@@ -17,17 +17,36 @@
 </template>
 
 <script>
+import { registerUser } from '@/api/index';
 export default {
   data() {
     return {
+      // form values
       username: '',
       password: '',
       nickname: '',
+      // log msg
+      logmsg: '',
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       console.log('Form submit');
+      const userData = {
+        username: this.username,
+        password: this.password,
+        nickname: this.nickname,
+      };
+      // const response = await registerUser(userData)
+      const { data } = await registerUser(userData);
+      console.log(data.username);
+      this.logmsg = `${data.username} signup completed`;
+      this.resetForm();
+    },
+    resetForm() {
+      this.username = '';
+      this.password = '';
+      this.nickname = '';
     },
   },
 };
