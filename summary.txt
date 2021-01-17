@@ -101,3 +101,7 @@ process.env.VUE_APP_API_URL
 .env보다 우선순위를 가진다.
 .env
 개발할 때와 배포할 때 상관없이 공통으로 써야 될 환경변수들을 .env파일에 정의한다.
+
+LoginPage 
+components/LoginForm.vue를 만들어 import한다.
+id와 password칠 label과 input생성 v-model로 받은다음 axios를 통해 전송할 post function인 submitForm function 작성
