@@ -13,6 +13,7 @@
       <input id="nickname" type="text" v-model="nickname" />
     </div>
     <button type="submit">Submit</button>
+    <p>{{ logmsg }}</p>
   </form>
 </template>
 
@@ -31,7 +32,6 @@ export default {
   },
   methods: {
     async submitForm() {
-      console.log('Form submit');
       const userData = {
         username: this.username,
         password: this.password,
@@ -39,9 +39,10 @@ export default {
       };
       // const response = await registerUser(userData)
       const { data } = await registerUser(userData);
-      console.log(data.username);
       this.logmsg = `${data.username} signup completed`;
       this.resetForm();
+      console.log('Form submit');
+      console.log(data.username);
     },
     resetForm() {
       this.username = '';

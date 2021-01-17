@@ -82,7 +82,7 @@ response를 받아 post기능이 성공되면 회원이름과 함께 회원가�
 axios create
 axios.crate를 이용해 기본 옵션들을 설정할 수 있다.
 거의 백앤드 서버에 접속하는 URL은 하나로 지정해서 하기 떄문에 baseURL값으로 집어 넣는다.
-그럼 post할 떄 axios.post(URL,data)대신 instance.post(data)로 post요청을 할 수 있다.
+그럼 post할 떄 axios.post(URL,data)대신 instance.post(baseURL + 페이지 이름, data) 즉 instance.post ('signup',data)로 post요청을 할 수 있다.
 
 환경변수 설정 .env
 프로젝트 폴더 최상단인 root에 .env파일을 만든다.
