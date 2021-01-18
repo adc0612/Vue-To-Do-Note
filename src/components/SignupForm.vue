@@ -1,23 +1,31 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div>
-      <label for="username">id: </label>
-      <input id="username" type="text" v-model="username" />
+  <div class="contents">
+    <div class="form-wrapper form-wrapper-sm">
+      <form @submit.prevent="submitForm" class="form">
+        <div>
+          <label for="username">id: </label>
+          <input id="username" type="text" v-model="username" />
+        </div>
+        <div>
+          <label for="password">pw: </label>
+          <input id="password" type="text" v-model="password" />
+        </div>
+        <div>
+          <label for="nickname">nickname: </label>
+          <input id="nickname" type="text" v-model="nickname" />
+        </div>
+        <!-- email validation 통과, password와 nickname이 있어야 submit버튼 활성화 -->
+        <button
+          :disabled="!isUsernameValid || !password || nickname"
+          type="submit"
+          class="btn"
+        >
+          Submit
+        </button>
+        <p class="log">{{ logmsg }}</p>
+      </form>
     </div>
-    <div>
-      <label for="password">pw: </label>
-      <input id="password" type="text" v-model="password" />
-    </div>
-    <div>
-      <label for="nickname">nickname: </label>
-      <input id="nickname" type="text" v-model="nickname" />
-    </div>
-    <!-- email validation 통과, password와 nickname이 있어야 submit버튼 활성화 -->
-    <button :disabled="!isUsernameValid || !password || nickname" type="submit">
-      Submit
-    </button>
-    <p>{{ logmsg }}</p>
-  </form>
+  </div>
 </template>
 
 <script>

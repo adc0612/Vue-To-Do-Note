@@ -1,19 +1,32 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div>
-      <label for="username">id: </label>
-      <input type="text" id="username" v-model="username" />
+  <div class="contents">
+    <div class="form-wrapper form-wrapper-sm">
+      <form @submit.prevent="submitForm">
+        <div>
+          <label for="username">id: </label>
+          <input type="text" id="username" v-model="username" />
+          <p class="validation-text">
+            <span class="warning" v-if="!isUsernameValid && username">
+              Please enter an email address
+            </span>
+          </p>
+        </div>
+        <div>
+          <label for="password">pw: </label>
+          <input type="text" id="password" v-model="password" />
+        </div>
+        <!-- email validation 통과, password가 있어야 submit버튼 활성화 -->
+        <button
+          :disabled="!isUsernameValid || !password"
+          type="submit"
+          class="btn"
+        >
+          Login
+        </button>
+        <p class="log">{{ logmsg }}</p>
+      </form>
     </div>
-    <div>
-      <label for="password">pw: </label>
-      <input type="text" id="password" v-model="password" />
-    </div>
-    <!-- email validation 통과, password가 있어야 submit버튼 활성화 -->
-    <button :disabled="!isUsernameValid || !password" type="submit">
-      Login
-    </button>
-    <p>{{ logmsg }}</p>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -63,4 +76,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.btn {
+  color: white;
+}
+</style>
