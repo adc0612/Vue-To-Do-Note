@@ -105,3 +105,22 @@ process.env.VUE_APP_API_URL
 LoginPage 
 components/LoginForm.vue를 만들어 import한다.
 id와 password칠 label과 input생성 v-model로 받은다음 axios를 통해 전송할 post function인 submitForm function 작성
+
+email validation
+username을 email로 받을 것이므로 email형식인지 확인하는 utils폴더 생성 후 validation.js를 생성한다.
+validate function은 인터넷에서 regex형식으로 된 것을 가져왔다.
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+export해서 쓸 수 있게 만든다.
+
+LoginForm email validation 적용
+isUsernameValid function을 만들어 validateEmail을 import한 후 true or false를 반환하는 computed function을 만든다.
+login 버튼이 isUsernameValid가 true고 password가 입력 됐을 때만 활성화 시킨다.
+<button :disabled="!isUsernameValid || !password" type="submit">
+
+SignupForm email validation 적용
+SignupForm도 마찬가지로 isUsernameValid function을 만들어 validateEmail을 import한 후 true or false를 반환하는 computed function을 만든다.
+signup 버튼이 isUsernameValid가 true고 password와 nickname이 입력 됐을 때만 활성화 시킨다.
+<button :disabled="!isUsernameValid || !password || !nickname" type="submit">

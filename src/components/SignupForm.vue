@@ -12,13 +12,17 @@
       <label for="nickname">nickname: </label>
       <input id="nickname" type="text" v-model="nickname" />
     </div>
-    <button type="submit">Submit</button>
+    <!-- email validation 통과, password와 nickname이 있어야 submit버튼 활성화 -->
+    <button :disabled="!isUsernameValid || !password || nickname" type="submit">
+      Submit
+    </button>
     <p>{{ logmsg }}</p>
   </form>
 </template>
 
 <script>
 import { registerUser } from '@/api/index';
+import { validateEmail } from '@/utils/validation';
 export default {
   data() {
     return {
@@ -29,6 +33,12 @@ export default {
       // log msg
       logmsg: '',
     };
+  },
+  computed: {
+    // username이 eamil형식인지 validation
+    isUsernameValid() {
+      return validateEmail(this.username);
+    },
   },
   methods: {
     async submitForm() {
