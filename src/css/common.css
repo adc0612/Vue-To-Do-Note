@@ -113,11 +113,12 @@ a:hover {
 }
 
 .btn {
-    background: #FE9616;
+    background: #4F9CCA;
     padding: 0.5rem 1.5rem;
     font-weight: 700;
     border-radius: .25rem;
     border: 0 solid #dae1e7;
+    width: 100%;
 }
 
 .btn.disabled {

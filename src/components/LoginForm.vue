@@ -1,7 +1,7 @@
 <template>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
-      <form @submit.prevent="submitForm">
+      <form @submit.prevent="submitForm" class="form">
         <div>
           <label for="username">id: </label>
           <input type="text" id="username" v-model="username" />

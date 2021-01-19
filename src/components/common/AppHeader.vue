@@ -5,8 +5,10 @@
         TIL
       </router-link>
     </div>
-    <router-link to="/login">로그인</router-link> |
-    <router-link to="/signup">회원가입</router-link>
+    <div class="navigations">
+      <router-link to="/login">Login</router-link>
+      <router-link to="/signup">Signup</router-link>
+    </div>
   </header>
 </template>
 
@@ -20,7 +22,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #927dfc;
+  background-color: #3e65c1;
   z-index: 2;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05);
 }
