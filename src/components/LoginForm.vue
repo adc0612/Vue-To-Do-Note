@@ -58,8 +58,9 @@ export default {
         };
         const { data } = await loginUser(userData);
         console.log(data.user.username);
-        this.logmsg = `${data.user.username} login completed`;
-        this.resetForm();
+        this.$router.push('/main');
+        // this.logmsg = `${data.user.username} login completed`;
+        // this.resetForm();
       } catch (error) {
         // 에러 생겼을때 로직
         // console.log(error);
