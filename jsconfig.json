@@ -1,3 +1,4 @@
+// vscode에서 제공하는 파일로 파일 절대경로 설정 
 {
   "compilerOptions": {
     "baseUrl": ".",
@@ -5,12 +6,12 @@
       "~/*": [
         "./*"
       ],
-      "@/*": [
+      "@/*": [ //@로 최상단에 src폴더로 인식
         "./src/*"
       ],
     }
   },
-  "exclude": [
+  "exclude": [ //제외 할 폴더 목록
     "node_modules",
     "dist"
   ]
