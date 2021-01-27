@@ -6,14 +6,34 @@
       </router-link>
     </div>
     <div class="navigations">
-      <router-link to="/login">Login</router-link>
-      <router-link to="/signup">Signup</router-link>
+      <template v-if="isUserLogin">
+        <span>{{ $store.state.username }}</span>
+        <a href="javascript:;" @click="logoutUser">Logout</a>
+      </template>
+      <template v-else>
+        <router-link to="/login">Login</router-link>
+        <router-link to="/signup">Signup</router-link>
+      </template>
     </div>
   </header>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    isUserLogin() {
+      return this.$store.getters.isLogin;
+    },
+  },
+  methods: {
+    logoutUser() {
+      // vuex mutations에 있는 clearUsername 함수 호출
+      this.$store.commit('clearUsername');
+      // loginPage로 전환
+      this.$router.push('/login');
+    },
+  },
+};
 </script>
 
 <style scoped>

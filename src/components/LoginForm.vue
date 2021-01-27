@@ -58,13 +58,14 @@ export default {
         };
         const { data } = await loginUser(userData);
         console.log(data.user.username);
+        // username을 store의 username에 저장
+        this.$store.commit('setUsername', data.user.username);
+        //main창으로 이동
         this.$router.push('/main');
         // this.logmsg = `${data.user.username} login completed`;
         // this.resetForm();
       } catch (error) {
         // 에러 생겼을때 로직
-        // console.log(error);
-        // console.log(error.response);
         console.log(error.response.data);
         this.logmsg = error.response.data;
       }
