@@ -14,12 +14,12 @@ prettier: 코딩 포맷을 정하는 것 (semicolumn이나 indent등등)
 .prettierrc 파일을 최상위에 만들어서 prettier설정을 할 수 있다.
 하지만 prettier설정과 eslint의 rule이 충돌이 되므로 되도록 eslint가 우선시 되게 eslint안에 prettier rule을 적용해준다.
 
-프로젝트 소스 레벨에서 관리하면 어떤 에디터를 쓰던 공통적으로 eslint와 prettier관리가 될 수 있다.v
+프로젝트 소스 레벨에서 관리하면 어떤 에디터를 쓰던 공통적으로 eslint와 prettier관리가 될 수 있다.
 
 Routing 설정
 
 Code Spliting
-SPA(Single Page Application)기반에 사이트는 사이트 접속시 페이지 20개면 20개 30개면 30개 다 처음 로딩 될 때 불러온다.
+SPA(Single Page Application)기반 사이트는 사이트 접속시 페이지 20개면 20개 30개면 30개 다 처음 로딩 될 때 불러온다.
 페이지가 많을 수록 오랜시간이 걸림으로 code Spliting을 이용해 Login Page에서는 Login만 Signup페이지에서는 Signup페이지만 불러오게 할 예정이다.
 routes/index.js에서 component부분을 최상단에서 import가 아닌 클릭 했을때 들고오게 아래처럼 만들어준다.
       path: '/login',

@@ -1,6 +1,9 @@
 <template>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
+      <!-- v-on directive를 이용해 폼의 submit 이벤트를 바인딩
+      submit시 페이지 갱신을 막는 prevent
+      v-on:submit == @submit -->
       <form @submit.prevent="submitForm" class="form">
         <div>
           <label for="username">id: </label>
@@ -44,23 +47,32 @@ export default {
   },
   computed: {
     // username이 eamil형식인지 validation
+    // email textfield에 글자 하나 칠 때마다 validation검사가 됨
     isUsernameValid() {
       return validateEmail(this.username);
     },
   },
   methods: {
     async submitForm() {
-      const userData = {
-        username: this.username,
-        password: this.password,
-        nickname: this.nickname,
-      };
-      // const response = await registerUser(userData)
-      const { data } = await registerUser(userData);
-      this.logmsg = `${data.username} signup completed`;
-      this.resetForm();
-      console.log('Form submit');
-      console.log(data.username);
+      try {
+        // 에러 없이 통과했을때 로직
+        const userData = {
+          username: this.username,
+          password: this.password,
+          nickname: this.nickname,
+        };
+        // promise 기법
+        // const { data } = registerUser(userData)
+        //   .then()
+        //   .catch(error => console.log(error));
+        const { data } = await registerUser(userData);
+        this.logmsg = `${data.username} signup completed`;
+        this.resetForm();
+        console.log('Form submit');
+        console.log(data.username);
+      } catch (error) {
+        console.log(error.response.data);
+      }
     },
     resetForm() {
       this.username = '';

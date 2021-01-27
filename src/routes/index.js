@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
+// vue router 사용
 Vue.use(VueRouter);
 
 // router instance를 쓸 수 있게 export한다
@@ -14,7 +16,7 @@ export default new VueRouter({
     },
     {
       path: '/login',
-      // component에 function으로 import로 들고오면 해당 페이지에 들어갈 때 해당파일을 자원을 들고 올수 있다.
+      // component에 function으로 import로 들고오면 해당 페이지에 들어갈 때 해당파일을 자원을 들고올 수 있다.
       component: () => import('@/views/LoginPage.vue'),
     },
     {
