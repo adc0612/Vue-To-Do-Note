@@ -15,7 +15,7 @@ export default new Vuex.Store({
     // 만약 state.username이 비어있으면 false, 아니면 true반환
     // state.username으로 login된지 체크
     isLogin(state) {
-      return state.username != '';
+      return state.username !== '';
     },
   },
   //   state를 바꾸는 역할

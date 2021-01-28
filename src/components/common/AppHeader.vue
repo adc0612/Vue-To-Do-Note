@@ -8,6 +8,7 @@
     <div class="navigations">
       <template v-if="isUserLogin">
         <span>{{ $store.state.username }}</span>
+        <!-- hyperlink이동기능 방지 -->
         <a href="javascript:;" @click="logoutUser">Logout</a>
       </template>
       <template v-else>

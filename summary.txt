@@ -137,3 +137,28 @@ const {data} = await loginUser(userData)
 <router-link> router.push 다른점
 <router-link to=""> 는 HTML 상에서 이동하는 것이고,
 this.$router.push() 는 Javascript 상에서 이동하는 것이다. 
+
+vuex
+컴포넌트 간 state값을 공용으로 사용하기 위해 vuex설치
+vuex 설치 후 src/store/index.js파일 생성
+stc/main.js에 store/index.js 파일 등록
+vuex state username선언, username을 set할 setUsername mutations 선언
+
+LoginForm.vue에서 로그인 할 때 this.$store.commit('setUsername', data.user.username);으로 state.username으로 username값 저장
+AppHeader.vue에서 $store.state.username으로 username꺼내서 header에 등록
+
+<template>태그 이용
+<template></template>과 v-if v-else를 이용해 로그인이 되면 state의 username을 보여주고 로그인 전엔 login, signup만 보여줄 것 이다.
+
+vuex getters
+vuex getters인 isLogin() 함수를 사용하여 state의 username이 비어있으면 isLogin false를 반환하고,
+username이 있으면 isLogin true를 반환한다.
+그것을 v-if의 연결한다. v-if="this.$store.getters.isLogin"으로 해도 되지만
+computed속성에 연결하여 this.$store.getters.isLogin값을 리턴하는 함수를 만들어 값을 넣어줬다.
+
+임시 로그아웃 기능
+AppHeader에 login했을때 logout할 수 있도록 link를 생성했다.
+vuex의 mutations에 clearUsername이라고 함수를 만들고 state의 username값을 빈공간으로 초기화 시킨다.
+그것을 logout링크에 v-on:click으로 엮어 methods의 함수인 logoutUser()를 선언했다.
+logoutUser() 안에는 this.$store.commit('clearUsername');으로 clearUsername함수를 호출하고 
+this.$router.push('/login');을 이용해 login 페이지로 전환시켯다.
