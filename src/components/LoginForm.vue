@@ -57,12 +57,13 @@ export default {
           password: this.password,
         };
         const { data } = await loginUser(userData);
-        console.log(data.user.username);
+        console.log(data.token);
+        // store의 token의 데이터 token값을 저장
+        this.$store.commit('setToken', data.token);
         // username을 store의 username에 저장
         this.$store.commit('setUsername', data.user.username);
         //main창으로 이동
         this.$router.push('/main');
-        // this.logmsg = `${data.user.username} login completed`;
         this.resetForm();
       } catch (error) {
         // 에러 생겼을때 로직

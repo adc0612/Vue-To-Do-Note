@@ -9,6 +9,7 @@ export default new Vuex.Store({
   // 여러 component들 사이에 공유되는 데이터
   state: {
     username: '',
+    token: '',
   },
   // state에서 상태가 변경되었을때 계산하는 함수들
   getters: {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     clearUsername(state) {
       state.username = '';
+    },
+    setToken(state, token) {
+      state.token = token;
     },
   },
 });
