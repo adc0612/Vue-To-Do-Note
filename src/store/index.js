@@ -1,5 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { loginUser } from '@/api/index';
+import {
+  saveAuthToCookie,
+  saveUserToCookie,
+  getAuthFromCookie,
+  getUserFromCookie,
+} from '@/utils/cookies';
 
 // vuex 호출
 Vue.use(Vuex);
@@ -8,8 +15,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   // 여러 component들 사이에 공유되는 데이터
   state: {
-    username: '',
-    token: '',
+    // cookie에 username이 있으면 불러오고 아니면 빈문자열
+    username: getUserFromCookie() || '',
+    // cookie에 token이 있으면 불러오고 아니면 빈문자열
+    token: getAuthFromCookie() || '',
   },
   // state에서 상태가 변경되었을때 계산하는 함수들
   getters: {
@@ -30,6 +39,20 @@ export default new Vuex.Store({
     },
     setToken(state, token) {
       state.token = token;
+    },
+  },
+  actions: {
+    async LOGIN({ commit }, userData) {
+      const { data } = await loginUser(userData);
+      console.log(data.token);
+      // store의 token의 데이터 token값을 저장
+      commit('setToken', data.token);
+      // username을 store의 username에 저장
+      commit('setUsername', data.user.username);
+      // cookie에 인증값 저장
+      saveAuthToCookie(data.token);
+      // cookie에 username 저장
+      saveUserToCookie(data.user.username);
     },
   },
 });

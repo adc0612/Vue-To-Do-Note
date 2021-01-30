@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import { loginUser } from '@/api/index';
 import { validateEmail } from '@/utils/validation';
 export default {
   data() {
@@ -56,12 +55,9 @@ export default {
           username: this.username,
           password: this.password,
         };
-        const { data } = await loginUser(userData);
-        console.log(data.token);
-        // store의 token의 데이터 token값을 저장
-        this.$store.commit('setToken', data.token);
-        // username을 store의 username에 저장
-        this.$store.commit('setUsername', data.user.username);
+        // LOGIN하는 store의 Action 호출
+        // LOGIN에는 서버에서 데이터 받아오는 비동기 호출이 있으므로 await 처리를 한다.
+        await this.$store.dispatch('LOGIN', userData);
         //main창으로 이동
         this.$router.push('/main');
         this.resetForm();
