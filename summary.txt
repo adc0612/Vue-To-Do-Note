@@ -192,3 +192,36 @@ export한 후 `api/index.js`에 돌아와 코드를 수정한다.
 그리고 새로운 instance를 만들어 `createInstance()`함수랑 연결한다.
 저장 후 로그인 성공하면 log창에 config를 보면 Authorization에 인증토큰이 들어 있는 것을 볼 수 있다.
 
+학습 노트 데이터 삽입
+학습 노트 데이터 조회 기능을 테스트하기위해 테스트용으로 Swagger Api (서버 localhost:3000포트에서 실행중)에서 노트 데이터 조회테스트를 위한 임시 노트 데이터를 만든다.
+테스트할 ID의 인증 토큰을 `Authorize`버튼을 눌러 인증을 해준다.  
+해줘야 해당 테스트할 유저에게 노트 데이터를 넣어 줄 수 있다.
+유저 토큰값을 붙여 넣고 Authorize누르면 인증이 돼서 데이터를 집어넣을 수 있는 권한이 생긴다.
+POST /posts (게시물을 한개 생성하는 API)에 `Try it out`을 눌러 임시로 title과 contents를 넣는다.
+201Code로 Response가 아래와 같이 나오면 노트 게시물 생성 완료다.
+
+학습 노트 데이터 불러오기 axios function
+
+api/index.js에 axios를 이용하여 노트 데이터를 불러오는 fetchPost Function을 선언한다.
+instance.get('posts')으로 posts를 들고 온다.
+
+axios로 노트데이터 불러오기 Function 호출
+`views/MainPage/vue`에서 fetchData async 함수를 생성해 await붙여 fetchPost함수를 호출한다.
+posts data는 data.post에 있으므로 data에 postItems배열을 생성하여 data.posts를 넣어준다.
+<ul></ul>안에 li를 v-for="postItem in postItems"만큼 돌려 postItem.title, postItem.contents, postItem.createdAt을 출력한다.
+
+PostListItem 컴포넌트화 (모듈화)
+가져온 노트 데이터의 부분을 컴포넌트로 나누려고 한다.  
+`components/`안에 `posts/`폴더 생성 후 `PostListItem.vue`를 만든다.
+`<li>`부분을 가져온 후 `<template></template>`안에 넣는다.  
+`<li v-for="postItem in postItems" :key="postItem._id">`여기서 postItems data와 data가져오는 함수는 없으므로 일단 지워주고 `<li>`만 놔둔다.  
+`MainPage.vue`에서 props로 내려줄 예정이다.
+`MainPage.vue`에서 PostListItem을 import하고 components에 등록한다.
+`<ul></ul>`안에는 불러온`<PostListItem>`을 넣어주고 props로 postItem에 postItem을 넣어준다.
+`PostListItem.vue`에서 props로 내린 postItem을 받아 props로 연결한다.
+이렇게 연결하면 화면에는 postItem이 예전과 같이 보이지만 코드 상으로는 따로 컴포넌트로 분리가 된것을 볼 수 있다.
+
+데이터 로딩 상태 표시하는 스피너 등록
+현재는 로컬서버에서 데이터를 불러와 시간이 짧게 걸린다. 
+사이트가 구현이 되면 서버에서 데이터를 불러오는 시간이 걸릴 수도 있다. 
+그래서 데이터 로딩 될 때 로딩상태를 표시하는 로딩바를 만든다.
