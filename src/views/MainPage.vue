@@ -2,7 +2,8 @@
   <div>
     <div class="main list-container contents">
       <h1 class="page-header">Today I Learned</h1>
-      <ul>
+      <LoadingSpinner v-if="isLoading"></LoadingSpinner>
+      <ul v-else>
         <!-- PostListItem.vue에 props의 postItem을 postItem으로 내렸다. -->
         <PostListItem
           v-for="postItem in postItems"
@@ -10,37 +11,31 @@
           :postItem="postItem"
         >
         </PostListItem>
-        <!-- <li v-for="postItem in postItems" :key="postItem._id">
-          <div class="post-title">
-            {{ postItem.title }}
-          </div>
-          <div class="post-contents">
-            {{ postItem.contents }}
-          </div>
-          <div class="post-time">
-            {{ postItem.createdAt }}
-          </div>
-        </li> -->
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 import PostListItem from '@/components/posts/PostListItem.vue';
 import { fetchPost } from '@/api/index';
 export default {
   components: {
     PostListItem,
+    LoadingSpinner,
   },
   data() {
     return {
       postItems: [],
+      isLoading: false,
     };
   },
   methods: {
     async fetchData() {
+      this.isLoading = true;
       const { data } = await fetchPost();
+      this.isLoading = false;
       console.log(data.posts);
       this.postItems = data.posts;
     },

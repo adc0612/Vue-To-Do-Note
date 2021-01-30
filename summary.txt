@@ -224,4 +224,12 @@ PostListItem 컴포넌트화 (모듈화)
 데이터 로딩 상태 표시하는 스피너 등록
 현재는 로컬서버에서 데이터를 불러와 시간이 짧게 걸린다. 
 사이트가 구현이 되면 서버에서 데이터를 불러오는 시간이 걸릴 수도 있다. 
-그래서 데이터 로딩 될 때 로딩상태를 표시하는 로딩바를 만든다.
+그래서 데이터 로딩 될 때 로딩상태를 표시하는 로딩스피너를 추가한다.
+common/LoadingSpinner.vue에 Spinner를 구현해놓은 것을 복사해와 저장했다.
+`MainPage.vue`에서 `common/LoadingSpinner.vue`를 import 한 후 component에 저장한다.
+로딩여부를 알려주는 isLoading을 data로 생성한다.
+노트 데이터를 불러오는 `await fetchPost();`바로 위에 isLoading에 true값을 준다.
+그리고 노트 데이터를 불러오면 false값을 주도록 바로 밑에 isLoading false값을 준다.
+`<ul></ul>`옆에 `<LoadingSpinner>`를 붙이고 v-if="isLoading"으로 해준다.
+`<ul></ul>`에는 v-else를 넣는다. 
+isLoading이 true면 LoadingSpinner 컴포넌트 보여주고 false면 ListItem을 보여주는 것이다.
