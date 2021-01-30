@@ -163,8 +163,32 @@ vuex의 mutations에 clearUsername이라고 함수를 만들고 state의 usernam
 logoutUser() 안에는 this.$store.commit('clearUsername');으로 clearUsername함수를 호출하고 
 this.$router.push('/login');을 이용해 login 페이지로 전환시켯다.
 
-token
-로그인 성공시 console.log(data.token) token 값을 볼 수 있다.  
+store token
+token은 유저로그인 이후로 데이터를 가져오기위해 인증토큰으로 쓰인다.
+login성공시 loginUser(userData) axios호출 시 return값으로 promise객체인 data를 받는데 그 안에 data.token으로 토큰값이 존재한다.
+data.token을 로그인 성공 후 http헤더에 포함시켜 서버에 요청해야지 유저의 할 일 리스트를 볼 수 있는 권한이 주어진다.
+그러기위해 data.token을 store에 저장 후 axios서버 호출 할 때 보내는 것이 좋다.
+store/index.js에서 state에 token변수를 생성 후 mutations에 setToken함수를 정하고 token값을 받는 함수를 생성한다.
+LoginForm.vue에서 로그인 성공 후 this.$store.commit('setToken', data.token);으로 token값을 store에 저장한다.
+
+axios Authorization
 api/index.js에서 instance안 baseURL밑에 headers만들고 안에 Authorization에 값을 선언하면,
 http요청에 값이 나오는 것을 알 수있다. 
 (개발자도구 network창에서 로그인 성공 후 확인하면 Authorization에 정의한 값이 들어있는 것을 볼 수 있다.)
+하지만 store에 token값을 header Authorization안에 넣으면 빈값만 출력되는 것을 볼 수 있다.
+살펴보니 axios create는 login할 때 쓰는 loginUser함수를 호출하기 전보다 먼저 실행되어 Authorization에는 빈 값이 들어가서 보내졌다.
+(javascript는 값이 바뀌었다고 자동으로 조정해주지는 않는다)
+
+axios interceptor
+서버에서 요청이나 받는 응답을 처리하기 전에 추가 로직을 넣을 수 있는 axios interceptor가 있다.
+공식문서(https://github.com/axios/axios#interceptors)에서 서버 요청에 로직 추가 `axios.interceptors.request.use`와 서버 응답에 로직 추가 `axios.interceptors.response.use` 함수를 그대로 복사 해온다.
+두 함수가 `axios`가 붙어 있는데 지금은 `instance`를 붙여서 axios를 사용중이므로 `instance`로 바꿔줘야 한다.
+interceptor의 정의가 길어지기 때문에 분리를 해준다.  
+`api/`폴더밑에 `common/`폴더 생성 후 `interceptor.js`를 만든다.
+store를 `store/index.js`에서 import 해주고 setInterceptors(instance)함수 안에 config.headers.Authorization = store.state.token;안에 넣어준다.
+export한 후 `api/index.js`에 돌아와 코드를 수정한다.  
+`store/index.js`에서 import 해주고 `config.headers.Authorization` 안에 넣어줬으므로, 임시로 붙여둔 headers의 Authorization을 지워준다.
+`createInstance()`함수를 만들고 기존 instance 선언한 것을 넣어주고 export한 setInterceptors() 인자로 instance를 넣고 return한다.  
+그리고 새로운 instance를 만들어 `createInstance()`함수랑 연결한다.
+저장 후 로그인 성공하면 log창에 config를 보면 Authorization에 인증토큰이 들어 있는 것을 볼 수 있다.
+

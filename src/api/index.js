@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { setInterceptors } from './common/interceptors';
 
+// axios 초기화 함수
 function createInstance() {
   // axios.crate를 이용해 기본 옵션들을 설정할 수 있다.
   // 거의 백앤드 서버에 접속하는 URL은 하나로 지정해서 하기 떄문에 baseURL값으로 집어 넣는다.
@@ -16,7 +17,7 @@ function createInstance() {
 
 const instance = createInstance();
 
-// 회원가입 data post
+// 회원가입 data post API
 function registerUser(userData) {
   //   const url = 'http://localhost:3000/signup';
   // 첫번재 인자 보낼 URL
@@ -26,9 +27,14 @@ function registerUser(userData) {
   return instance.post('signup', userData);
 }
 
-// 로그인 기능 data post
+// 로그인 기능 data post API
 function loginUser(userData) {
   return instance.post('login', userData);
 }
 
-export { registerUser, loginUser };
+// 학습노트 데이터 조회 API
+function fetchPost() {
+  return instance.get('posts');
+}
+
+export { registerUser, loginUser, fetchPost };
