@@ -37,4 +37,9 @@ function fetchPost() {
   return instance.get('posts');
 }
 
-export { registerUser, loginUser, fetchPost };
+// 학습노트 데이터 생성 post API
+function createPost(postData) {
+  return instance.post('posts', postData);
+}
+
+export { registerUser, loginUser, fetchPost, createPost };

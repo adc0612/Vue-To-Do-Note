@@ -233,3 +233,51 @@ common/LoadingSpinner.vue에 Spinner를 구현해놓은 것을 복사해와 저�
 `<ul></ul>`옆에 `<LoadingSpinner>`를 붙이고 v-if="isLoading"으로 해준다.
 `<ul></ul>`에는 v-else를 넣는다. 
 isLoading이 true면 LoadingSpinner 컴포넌트 보여주고 false면 ListItem을 보여주는 것이다.
+
+쿠키 이용 로그인
+화면을 새로고침 했을 때 Vuex의 state는 비워지게 되고 Token의 정보도 없어지게되서 게시판을 계속 볼 수 없는 인증상태가 되지 않으므로 그 정보를 cookie에 저장해야한다.  
+cookie를 이용해 브라우저 저장소에 저장하면 새로고침 되도 다시 브라우저 저장소에서 인증을 불러와, 연결이 끊어지지 않게 할 수 있다.
+`src/utils/`폴더에 `cookies.js`를 생성한다.
+쿠키에 값을 넣는 것은 기본 `document.cookie`에 값을 넣어두면 된다.
+
+LoginForm 로그인 함수 vuex store actions로 분리
+그인 시 함수들이 많은 관계로, store의 actions에 LOGIN 함수를 만든 후 로그인시 data를 서버에 보내는 axios 호출과 token값과 username을 저장하는 함수들을 넣어준다.
+위에 정의 해놓은 쿠키저장 함수들을 import 한 후, 인증값을 저장하고 username을 저장하는 함수도 호출한다.
+store의 username과 token에는 쿠키에서 인증값과 username을 불러오는 것을 붙여준다.
+`components/LoginForm.vue`의 submitForm()함수를 actions 넣어 수정한다.
+쿠키가 잘 들어가 있고 새로고침해도 로그인이 잘 되어있는것을 볼 수 있다.
+
+학습 노트 등록 페이지 이동버튼 생성과 아이콘 적용
+MainPage.vue에 router-link를 추가 후 to는 "/add"로 바꿔준다.
+아이콘은 아이오닉 아이콘으로 바꿔준다. 
+pubilc/index.html에서 링크를 추가해놨다.
+
+/add PostAddPage.vue 추가
+routes/index.js에 path:/add추가하고 import views/PostAddPage.vue를 추가한다.
+
+PostAddForm
+PostAddPage의 form을 담당할 컴포넌트인 components/posts/PostAddForm을 생성한다.
+form을 넣고 div안에 title label과 input, contents label과 textarea를 생성한다.
+submit에 쓰일 button도 추가한다.
+그러고 PostAddPage안에 PostAddForm을 컴포넌트로 연결한다.
+PostAddForm에 data로 title과 contents를 만든 후 v-model로 각각 연결한다.
+submit button에는 v-on submit으로 submit을 동작 할 submitForm methods를 생성하여 연결한다.
+
+createPost 함수 생성
+api/index.js에서 postData를 post 할 api 함수를 생성한다.
+createPost인자를 postData를 받아 post('posts',postData)로 만든다. export도 한다.
+
+PostAddForm.vue에 createPost연결
+PostAddForm에서 api/index.js의 createPost를 import한다.
+submitForm함수를 async를 붙이고 await붙여 createPost함수를 선언해서 response변수 안에 넣어준다.
+createPost인자는 객체로 title과 contents를 넣어 전달한다.
+
+await함수인 createPost의 에러 핸들링
+try catch로 감싼다.
+catch에서 에러 발생시 error.response.data.message안에 에러 설명이 있으므로,
+그것을 logmsg로 넣어 화면에 표시해준다.
+
+글자 수 validation 삽입
+PostAddForm.vue에 computed로 contents의 글자수가 200자 이내면 true고 아니면 false값을 return 하는 isContentsValid함수를 선언한다.
+textarea밑에 p태그를 삽입 후 v-if속성을 걸어 isContentsValid함수가 false면 나타나게 설정한다.
+
