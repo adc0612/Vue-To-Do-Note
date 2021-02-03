@@ -281,3 +281,18 @@ catch에서 에러 발생시 error.response.data.message안에 에러 설명이 
 PostAddForm.vue에 computed로 contents의 글자수가 200자 이내면 true고 아니면 false값을 return 하는 isContentsValid함수를 선언한다.
 textarea밑에 p태그를 삽입 후 v-if속성을 걸어 isContentsValid함수가 false면 나타나게 설정한다.
 
+api/index.js 인스턴스 생성 함수 분할
+fetchPosts 함수와 createPost함수는 setInterceptors이용해 인증값을 넣어줘야 하지만
+loginUser와 registerUser의 경우는 인증값이 필요하지 않으므로 instance 생성 함수를 분리한다.
+
+게시글 삭제 버튼 생성
+`components/posts/PostListItem.vue`에 시간표시해주는 div안 밑에 삭제 icon을 추가한다.
+삭제 icon을 클릭했을 때 실행되는 deleteItem함수를 생성해서 v-on click으로 연결한다.
+
+Post delete API 확인
+Swagger에 있는 delete API 문서를 보면 게시글을 지울 때 필요한 것은 게시글이 가지고 있는 고유의 아이디다.
+게시글의 id는 각 PostListItem의 `_id`에 값이 들어있는 것을 확인할 수 있다.  
+그 값을 전달해서 지워야 한다.
+
+deletePost API 작성
+`api/posts.js`에서 delete api인 `deletePost`를 작성한다. 작성하고 export 한다.
