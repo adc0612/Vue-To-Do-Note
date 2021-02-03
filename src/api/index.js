@@ -23,4 +23,5 @@ function createInstanceWithAuth(url) {
 }
 
 export const instance = createInstance();
+// 게시물 조회, 추가, 삭제는 posts url이 필요하므로 넣어준다.
 export const post = createInstanceWithAuth('posts');

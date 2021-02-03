@@ -3,12 +3,12 @@ import { post } from './index';
 
 // 학습노트 데이터 조회 API
 function fetchPost() {
-  return post.get();
+  return post.get('/');
 }
 
 // 학습노트 데이터 생성 post API
 function createPost(postData) {
-  return post.post(postData);
+  return post.post('/', postData);
 }
 
 export { fetchPost, createPost };
