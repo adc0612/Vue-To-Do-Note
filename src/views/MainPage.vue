@@ -23,7 +23,7 @@
 <script>
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
 import PostListItem from '@/components/posts/PostListItem.vue';
-import { fetchPost } from '@/api/posts';
+import { fetchPostList } from '@/api/posts';
 export default {
   components: {
     PostListItem,
@@ -38,7 +38,7 @@ export default {
   methods: {
     async fetchData() {
       this.isLoading = true;
-      const { data } = await fetchPost();
+      const { data } = await fetchPostList();
       this.isLoading = false;
       console.log(data.posts);
       this.postItems = data.posts;

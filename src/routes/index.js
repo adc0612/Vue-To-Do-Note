@@ -32,6 +32,10 @@ export default new VueRouter({
       component: () => import('@/views/PostAddPage.vue'),
     },
     {
+      path: '/post/:id',
+      component: () => import('@/views/PostEditPage.vue'),
+    },
+    {
       // 위에 지정해놓은 페이지가 아닌 URL로 연결 되었을 때 보여줄 페이지
       path: '*',
       component: () => import('@/views/NotFoundPage.vue'),

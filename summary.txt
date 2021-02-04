@@ -296,3 +296,24 @@ Swagger에 있는 delete API 문서를 보면 게시글을 지울 때 필요한 
 
 deletePost API 작성
 `api/posts.js`에서 delete api인 `deletePost`를 작성한다. 작성하고 export 한다.
+
+import delete api
+`components/posts/PostListItem.vue`에 deleteItem methods안에 deletePost api 함수를 넣는다.  
+인자로 postItem의 id가 들어가야 하므로 `this.postItem._id`를 넣어준다.
+
+삭제 후 새로고침
+post가 삭제 된 후 화면에서는 새로고침을 해야 확인이 되므로 삭제 후 post들만 다시 갱신 될 수 있게 기능을 추가한다.  
+`components/posts/PostListItem.vue`에서 삭제함수가 성공되면 상위 컴포넌트인 `views/MainPage.vue`에 `refresh` 이벤트를 보낸다.
+`views/MainPage.vue`에 가서 refresh 이벤트가 오면 데이터를 불러오는 `fetchData`함수를 넣어 실행이 되게 한다.
+
+삭제 확인하는 창 띄우기
+삭제 버튼을 잘 못 누를수도 있으므로 다시 한번 확인하는 확인 창을 띄운다.  
+javascript confirm 함수를 이용한다.  
+confirm 함수는 매개변수로 받은 question(질문)과 확인 및 취소 버튼이 있는 모달 창을 보여준다.  
+사용자가 확인버튼를 누르면 true, 그 외의 경우는 false를 반환합니다.  
+true일 때만 삭제 기능이 될 수 있게 수정한다.  
+
+post add 후 자동 이동
+post를 생성 후 mainpage로 이동 할 수 있게 기능을 추가한다.  
+`components/posts/PostAddForm.vue`의 `submitForm()`methods를 수정한다.
+저장하면 게시글 생성 후 바로 메인페이지로 이동이 돼서 게시글이 생성된지 바로 확인이 가능하다.

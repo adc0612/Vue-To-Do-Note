@@ -1,6 +1,6 @@
 <template>
   <div class="contents">
-    <h1 class="page-header">Create Post</h1>
+    <h1 class="page-header">Edit Post</h1>
     <div class="form-wrapper">
       <form class="form" @submit.prevent="submitForm">
         <div>
@@ -14,7 +14,7 @@
             Contents must be less than 200
           </p>
         </div>
-        <button type="submit" class="btn">Create</button>
+        <button type="submit" class="btn">Edit</button>
         <p class="log">
           {{ logmsg }}
         </p>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { createPost } from '@/api/posts';
+import { fetchPost, editPost } from '@/api/posts';
 export default {
   data() {
     return {
@@ -40,8 +40,9 @@ export default {
   },
   methods: {
     async submitForm() {
+      const id = this.$route.params.id;
       try {
-        const response = await createPost({
+        const response = await editPost(id, {
           title: this.title,
           contents: this.contents,
         });
@@ -53,6 +54,18 @@ export default {
         this.logmsg = error.response.data.message;
       }
     },
+  },
+  async created() {
+    try {
+      // id는 router에 parameter로 넘긴 id다.
+      const id = this.$route.params.id;
+      const { data } = await fetchPost(id);
+      console.log(data);
+      this.title = data.title;
+      this.contents = data.contents;
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 </script>
