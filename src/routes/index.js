@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store/index';
 
 // vue router 사용
 Vue.use(VueRouter);
 
 // router instance를 쓸 수 있게 export한다
-export default new VueRouter({
+const router = new VueRouter({
   // URL의 #을 없애기 위해
   mode: 'history',
   routes: [
@@ -26,14 +27,17 @@ export default new VueRouter({
     {
       path: '/main',
       component: () => import('@/views/MainPage.vue'),
+      meta: { auth: true },
     },
     {
       path: '/add',
       component: () => import('@/views/PostAddPage.vue'),
+      meta: { auth: true },
     },
     {
       path: '/post/:id',
       component: () => import('@/views/PostEditPage.vue'),
+      meta: { auth: true },
     },
     {
       // 위에 지정해놓은 페이지가 아닌 URL로 연결 되었을 때 보여줄 페이지
@@ -42,3 +46,18 @@ export default new VueRouter({
     },
   ],
 });
+
+// to: 이동하려는 페이지 (link클릭한 주소)
+// from: 현재 페이지
+// next: 페이지 이동할 때 호출하는 API
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth && !store.getters.isLogin) {
+    console.log(`인증이 필요합니다`);
+    next('/login');
+    // return을 써주는 이유는 if문타고 왔을때 if문 밖에 있는 next가 실행이 안 되게 하기위해서
+    return;
+  }
+  next();
+});
+
+export default router;
