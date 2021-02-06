@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { deleteCookie } from '@/utils/cookies';
 export default {
   computed: {
     isUserLogin() {
@@ -33,8 +34,13 @@ export default {
   },
   methods: {
     logoutUser() {
-      // vuex mutations에 있는 clearUsername 함수 호출
+      // vuex mutations에 있는 clearUsername 함수 호출 store username값 초기화
       this.$store.commit('clearUsername');
+      // vuex mutations에 있는 clearToken 함수 호출해서 store token값 초기화
+      this.$store.commit('clearToken');
+      //쿠키에서 username, token삭제
+      deleteCookie('til_auth');
+      deleteCookie('til_name');
       // loginPage로 전환
       this.$router.push('/login');
     },
