@@ -1,7 +1,9 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    // jest 문법에 빨간줄쳐지지 않게한다.
+    jest: true,
   },
   extends: ["plugin:vue/essential", "@vue/prettier"],
   rules: {
